@@ -42,5 +42,9 @@
   "admin": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "commodity": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }
