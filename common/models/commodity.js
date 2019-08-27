@@ -41,4 +41,45 @@ module.exports = function(Commodity) {
             callback(err);
         });
     }
+
+
+    Commodity.remoteMethod(
+        'getIdCommodity',
+        {
+            description: 'get id commodity',
+            accepts: [{ 
+                arg: 'id', 
+                type: 'string'
+            }],
+            returns:{
+                arg: 'res', 
+                type:'object', 
+                root: true
+            },
+            http: { 
+                path: '/getIdCommodity', 
+                verb: 'get' 
+            }
+        }
+    );
+
+    Commodity.getIdCommodity = function(id, callback){
+        new Promise(function(resolve, reject){
+
+            Commodity.findById(id, function(err, result){
+                if(err) reject (err)
+                if(result === null){
+                    err = new Error ("Id Not found")
+                    err.statusCode = 404
+                    reject (err)
+                }
+                resolve(result)
+            })
+        }).then(function(res){
+            if (!res) callback (err)
+            return callback (null, res)
+        }).catch(function(err){
+            callback(err);
+        });
+    }
 };
