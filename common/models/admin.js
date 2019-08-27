@@ -1,29 +1,28 @@
 'use strict';
 
-module.exports = function(Customer) {
-    Customer.remoteMethod(
-        'getNameLike',
+module.exports = function(Admin) {
+    Admin.remoteMethod(
+        'getNameAdmin',
         {
-            description: 'get name like',
-            accepts: [{ 
+            description: 'get name admin',
+            accepts: [{
                 arg: 'name', 
                 type: 'string'
             }],
-            returns:{
-                arg: 'res', 
-                type:'object', 
+            returns: {
+                arg: 'res',
+                type: 'object',
                 root: true
             },
-            http: { 
-                path: '/getNameLike', 
+            http: {
+                path: '/getNameAdmin',
                 verb: 'get'
             }
         }
     );
 
-    Customer.getNameLike = function(name, callback){
+    Admin.getNameAdmin = function(name, callback){
         new Promise(function(resolve, reject){
-
             var filter = {
                 where: {
                     name : {
@@ -32,17 +31,17 @@ module.exports = function(Customer) {
                 }
             }
 
-            Customer.find(filter, function(err, result){
+            Admin.find(filter, function(err, result){
                 if(err) reject (err)
                 if(result === null){
-                    err = new Error ("Nama tidak dapat ditemukan")
+                    err = new Error ("Name Not Found")
                     err.statusCode = 404
                     reject (err)
                 }
                 resolve(result)
             })
         }).then(function(res){
-            if(!res) callback (err)
+            if (!res) callback (err)
             return callback (null, res)
         }).catch(function(err){
             callback(err);
