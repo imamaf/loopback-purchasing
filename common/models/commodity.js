@@ -40,4 +40,5 @@ module.exports = function(Commodity) {
         }).catch(function(err){
             callback(err);
         });
+    }
 };
