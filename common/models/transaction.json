@@ -1,0 +1,31 @@
+{
+  "name": "transaction",
+  "plural": "transaction",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id_transaction": {
+      "type": "string"
+    },
+    "customer": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "string"
+    },
+    "item": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
