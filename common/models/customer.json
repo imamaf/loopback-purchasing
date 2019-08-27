@@ -7,6 +7,9 @@
     "validateUpsert": true
   },
   "properties": {
+    "id_customer": {
+      "type": "string"
+    },
     "name": {
       "type": "string",
       "required": true
