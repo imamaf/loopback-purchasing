@@ -1,17 +1,24 @@
 'use strict';
 
 module.exports = function(Commodity) {
+// Filter By Name
     Commodity.remoteMethod(
         'getNameCommodity',
         {
             description: 'get name commodity',
-            accepts: [
-                { arg: 'name', type: 'string'}
-            ],
+            accepts: [{ 
+                arg: 'name', 
+                type: 'string'
+            }],
             returns:{
-                arg: 'res', type:'object', root: true
+                arg: 'res', 
+                type:'object', 
+                root: true
             },
-            http: { path: '/getNameCommodity', verb: 'get' }
+            http: { 
+                path: '/getNameCommodity', 
+                verb: 'get' 
+            }
         }
     );
 
@@ -43,6 +50,7 @@ module.exports = function(Commodity) {
     }
 
 
+// Filter By Id
     Commodity.remoteMethod(
         'getIdCommodity',
         {
@@ -70,6 +78,55 @@ module.exports = function(Commodity) {
                 if(err) reject (err)
                 if(result === null){
                     err = new Error ("Id Not found")
+                    err.statusCode = 404
+                    reject (err)
+                }
+                resolve(result)
+            })
+        }).then(function(res){
+            if (!res) callback (err)
+            return callback (null, res)
+        }).catch(function(err){
+            callback(err);
+        });
+    }
+
+
+// Filter By Category
+    Commodity.remoteMethod(
+        'getCategoryCommodity',
+        {
+            description: 'get category commodity',
+            accepts: [{ 
+                arg: 'category', 
+                type: 'string'
+            }],
+            returns:{
+                arg: 'res', 
+                type:'object', 
+                root: true
+            },
+            http: { 
+                path: '/getCategoryCommodity', 
+                verb: 'get' 
+            }
+        }
+    );
+
+    Commodity.getCategoryCommodity = function(category, callback){
+        new Promise(function(resolve, reject){
+            var filter = {
+                where: {
+                    category : {
+                        like : category
+                    }
+                }
+            }
+            
+            Commodity.find(filter, function(err, result){
+                if(err) reject (err)
+                if(result === null){
+                    err = new Error ("Category Not found")
                     err.statusCode = 404
                     reject (err)
                 }

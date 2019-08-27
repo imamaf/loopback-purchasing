@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function(Transaction) {
+// Filter By Name
     Transaction.remoteMethod(
         'getCustomerTransaction',
         {
@@ -48,7 +49,7 @@ module.exports = function(Transaction) {
         });
     }
 
-
+// Filter By Id
     Transaction.remoteMethod(
         'getIdTransaction',
         {
@@ -76,6 +77,54 @@ module.exports = function(Transaction) {
                 if(err) reject (err)
                 if(result === null){
                     err = new Error ("Id Not found")
+                    err.statusCode = 404
+                    reject (err)
+                }
+                resolve(result)
+            })
+        }).then(function(res){
+            if (!res) callback (err)
+            return callback (null, res)
+        }).catch(function(err){
+            callback(err);
+        });
+    }
+
+// Filter By Category
+    Transaction.remoteMethod(
+        'getCategoryTransaction',
+        {
+            description: 'get category transaction',
+            accepts: [{ 
+                arg: 'category', 
+                type: 'string'
+            }],
+            returns:{
+                arg: 'res', 
+                type:'object', 
+                root: true
+            },
+            http: { 
+                path: '/getCategoryTransaction', 
+                verb: 'get' 
+            }
+        }
+    );
+
+    Transaction.getCategoryTransaction = function(category, callback){
+        new Promise(function(resolve, reject){
+            var filter = {
+                where: {
+                    category : {
+                        like : category
+                    }
+                }
+            }
+            
+            Transaction.find(filter, function(err, result){
+                if(err) reject (err)
+                if(result === null){
+                    err = new Error ("Category Not found")
                     err.statusCode = 404
                     reject (err)
                 }
